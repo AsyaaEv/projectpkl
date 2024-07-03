@@ -11,6 +11,8 @@ import { useFormik } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { z } from "zod";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 interface SignUpValidation {
@@ -23,6 +25,7 @@ export default function SignUp() {
 
     const [showcPassword, setShowcPassword] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+    const router = useRouter()
 
     const signupSchema = z.object({
         name: z.string().min(3, { message: 'Nama harus terdiri dari 3 karakter atau lebih' }),
@@ -44,7 +47,10 @@ export default function SignUp() {
         },
         validationSchema: toFormikValidationSchema(signupSchema),
         onSubmit: (values) => {
-            console.log(values)
+            router.push('/login')
+            toast.success('Pendaftaran berhasil', {
+                description: 'Silakan login'
+            })
         }
     })
     return (
@@ -82,7 +88,7 @@ export default function SignUp() {
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-between w-full">
-                        <Button type="submit" className="w-full  bg-sky-500 flex items-center justify-center gap-2 flex-row-reverse hover:bg-sky-600 text-base"><PaperPlaneTilt weight="fill" className="size-4" />Daftar</Button>
+                        <Button type="submit" className="w-full  bg-sky-500 flex items-center justify-center gap-2 flex-row-reverse hover:bg-sky-600 text-base group overflow-hidden"><PaperPlaneTilt weight="fill" className="size-4 -translate-y-8 group-hover:translate-y-0 transition-all duration-300" />Daftar</Button>
                     </CardFooter>
                 </form>
             </CardLogin>
